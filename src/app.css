@@ -61,3 +61,27 @@ button:focus-visible {
   border-color: blue;
   color: #646cff;
 }
+
+.bgGradient {
+  background: hsla(229, 76%, 66%, 1);
+
+  background: linear-gradient(
+    180deg,
+    hsla(229, 76%, 66%, 1) 0%,
+    hsla(22, 94%, 79%, 1) 100%
+  );
+
+  background: -moz-linear-gradient(
+    180deg,
+    hsla(229, 76%, 66%, 1) 0%,
+    hsla(22, 94%, 79%, 1) 100%
+  );
+
+  background: -webkit-linear-gradient(
+    180deg,
+    hsla(229, 76%, 66%, 1) 0%,
+    hsla(22, 94%, 79%, 1) 100%
+  );
+
+  filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#667EEA", endColorstr="#FCBC98", GradientType=1 );
+}
