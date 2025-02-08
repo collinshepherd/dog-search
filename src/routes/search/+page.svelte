@@ -1,6 +1,11 @@
-<!-- <script>
-	/** @type {import('./$types').PageProps} */
-	let { data } = $props();
+<script>
+  /** @type {import('./$types').PageProps} */
+  let { data } = $props();
+  import SearchPage from "../../components/SearchPage.svelte";
 </script>
 
-<div>{@html data.post.breeds}</div> -->
+<SearchPage
+  breeds={data.post.breeds}
+  dogs={data.post.dogs}
+  auth={data.post.auth}
+/>

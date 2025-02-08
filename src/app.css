@@ -85,3 +85,18 @@ button:focus-visible {
 
   filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#667EEA", endColorstr="#FCBC98", GradientType=1 );
 }
+
+.imgBottomBorder::before {
+  content: "";
+  display: block;
+  grid-column: span 2;
+  height: 18px;
+  border-radius: 50% 50% 0 0;
+  position: relative;
+  bottom: 1vh;
+  background-color: #1e2939;
+}
+
+.item {
+  pointer-events: none;
+}
