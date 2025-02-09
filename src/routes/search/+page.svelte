@@ -8,4 +8,5 @@
   breeds={data.post.breeds}
   dogs={data.post.dogs}
   auth={data.post.auth}
+  nextDogQuery={data.post.nextDogQuery}
 />

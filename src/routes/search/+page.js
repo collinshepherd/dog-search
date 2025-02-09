@@ -3,7 +3,7 @@
 export const ssr = false;
 
 export async function load({ fetch, request }) {
-  const res = await fetch(
+  const resDogBreeds = await fetch(
     "https://frontend-take-home-service.fetch.com/dogs/breeds",
     {
       method: "GET",
@@ -15,8 +15,8 @@ export async function load({ fetch, request }) {
   );
 
   // If the response is not ok, return early with auth false
-  console.log(res.ok);
-  if (!res.ok) {
+  console.log(resDogBreeds.ok);
+  if (!resDogBreeds.ok) {
     return {
       post: {
         breeds: [],
@@ -26,10 +26,10 @@ export async function load({ fetch, request }) {
     };
   }
 
-  const dogBreeds = await res.json();
+  const dogBreeds = await resDogBreeds.json();
 
-  const res2 = await fetch(
-    "https://frontend-take-home-service.fetch.com/dogs/search?size=100&sort=breed:asc",
+  const resDogs = await fetch(
+    "https://frontend-take-home-service.fetch.com/dogs/search?size=24&sort=breed:asc",
     {
       method: "GET",
       headers: {
@@ -39,8 +39,8 @@ export async function load({ fetch, request }) {
     }
   );
 
-  const res2Data = await res2.json();
-  const dogIds = res2Data.resultIds;
+  const resDogsData = await resDogs.json();
+  const dogIds = resDogsData.resultIds;
 
   const res3 = await fetch(
     "https://frontend-take-home-service.fetch.com/dogs",
@@ -80,11 +80,14 @@ export async function load({ fetch, request }) {
     }
   });
 
+  console.log(resDogsData.next);
+
   return {
     post: {
       breeds: dogBreeds,
       dogs: dogs,
       auth: true,
+      nextDogQuery: resDogsData.next,
     },
   };
 }

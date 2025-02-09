@@ -18,6 +18,7 @@
 <header class="flex flex-col relative z-20">
   <div
     class="max-w-[1400px] mx-auto w-full flex items-center justify-between p-4 py-6"
+    id="header"
   >
     <a href="/" aria-label="return to home page">
       <h1 class="font-semibold text-xl">
@@ -33,7 +34,7 @@
       </button> -->
       <nav class="hidden md:flex items-center gap-4 lg:gap-6">
         <a href="/login">
-          <button aria-label="button to login" class="specialBtn"
+          <button aria-label="button to login" class="specialBtn rounded-xl"
             >Get Started</button
           ></a
         >
@@ -43,7 +44,7 @@
         <button
           on:click={() => buttonHandler()}
           aria-label="button to home page"
-          class="specialBtn">Log Out</button
+          class="specialBtn rounded-xl">Log Out</button
         >
       </nav>
     {/if}
