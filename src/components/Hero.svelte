@@ -21,7 +21,7 @@
       <span class="italic">personalized matches, details,</span> and more!
     </p>
     <a href="/login">
-      <button class="specialBtn">
+      <button class="specialBtn rounded-xl">
         <p class="text-base sm:text-lg md:text-xl">Find your perfect pup!</p>
       </button>
     </a>
