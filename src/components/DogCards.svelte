@@ -2,21 +2,28 @@
   import { onMount } from "svelte";
   import { writable } from "svelte/store";
 
+  import { totalDogs } from "../lib/store";
+
+  let totalPages = Math.ceil($totalDogs / 24);
+
   export let dogs;
 
   export let nextDogQuery;
+
   let prevDogQuery = null;
 
   let currentPage = 1;
   let itemsPerPage = 15;
   let currentDogs = dogs;
 
+  import { formData } from "../lib/store";
+
   // Store to keep track of favorite dogs
-  let favoriteDogs = writable(new Set());
+  import { favoriteDogs } from "../lib/store";
 
   // Toggle favorite function
   async function toggleFavorite(dogId) {
-    await favoriteDogs.update((favs) => {
+    favoriteDogs.update((favs) => {
       const newFavs = new Set(favs);
       if (newFavs.has(dogId)) {
         newFavs.delete(dogId);
@@ -36,11 +43,9 @@
     favoriteDogs.set(new Set(matchedIds));
   }
 
-  async function totalPages() {
-    const resTotalDogs = fetch();
-  }
-
   async function nextPage() {
+    currentPage++;
+
     const resNextDogs = await fetch(
       `https://frontend-take-home-service.fetch.com${nextDogQuery}`,
       {
@@ -101,7 +106,9 @@
   }
 
   async function prevPage() {
-    if (!prevDogQuery) return;
+    if (!prevDogQuery || currentPage === 1) return;
+
+    currentPage--;
 
     const resNextDogs = await fetch(
       `https://frontend-take-home-service.fetch.com${prevDogQuery}`,
@@ -162,27 +169,96 @@
     currentDogs = dogData;
   }
 
-  async function generateMatch() {
-    const favoriteDogIds = Array.from($favoriteDogs);
+  async function newSearchFilter(formData) {
+    const baseUrl = "https://frontend-take-home-service.fetch.com/dogs/search?";
+    let params = "";
 
-    if (favoriteDogIds.length === 0) {
-      alert("Please select one dog before trying to match");
-      return;
+    for (const key in formData) {
+      if (formData[key]) {
+        if (Array.isArray(formData[key])) {
+          console.log("it ran");
+          formData[key].forEach((breed) => {
+            console.log(`${key}=${breed}`);
+            params += `${key}=${breed}&`;
+          });
+        } else {
+          params += `${key}=${formData[key]}&`;
+        }
+      }
     }
 
-    const resMatch = await fetch(
-      "https://frontend-take-home-service.fetch.com/dogs/match",
+    const searchURL = `${baseUrl}${params.toString()}`;
+
+    console.log(formData);
+    // console.log(searchURL);
+
+    const resDogs = await fetch(searchURL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    const dogData = await resDogs.json();
+
+    const dogIds = dogData.resultIds;
+
+    const resNewDogs = await fetch(
+      "https://frontend-take-home-service.fetch.com/dogs",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(favoriteDogIds),
+        body: JSON.stringify(dogIds),
         credentials: "include",
       }
     );
 
-    const matchedDog = await resMatch.json();
+    const newDogs = await resNewDogs.json();
+
+    const zipCodes = newDogs.map((dog) => dog.zip_code);
+
+    const res4 = await fetch(
+      "https://frontend-take-home-service.fetch.com/locations",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(zipCodes),
+        credentials: "include",
+      }
+    );
+
+    const cities = await res4.json();
+
+    newDogs.map((dog, idx) => {
+      if (cities[idx]) {
+        dog.city = cities[idx].city;
+      } else {
+        dog.city = dog.zip_code;
+      }
+    });
+
+    currentDogs = newDogs;
+
+    totalDogs.set(dogData.total);
+
+    totalPages = Math.ceil($totalDogs / 24);
+
+    nextDogQuery = dogData.next;
+  }
+  $: {
+    if ($formData) {
+      newSearchFilter($formData);
+
+      currentPage = 1;
+    }
+    if ($favoriteDogs) {
+      loadSavedMatches();
+    }
   }
 
   onMount(() => loadSavedMatches());
@@ -214,7 +290,7 @@
         {dog.age} years old
       </p>
 
-      <p class="text-md font-semibold text-white">{dog.breed}</p>
+      <p class="text-md font-semibold text-white truncate pr-1">{dog.breed}</p>
       <p class="text-md font-semibold text-white col-span-2">
         {dog.city}
       </p>
@@ -226,28 +302,20 @@
     <button
       on:click={prevPage}
       class="px-4 py-2 bg-gray-200 rounded-lg"
-      disabled={!prevDogQuery}
+      disabled={currentPage === 1}
     >
       Previous
     </button>
   </a>
-  <span class="px-4 py-2"
-    >Page {currentPage} of {Math.ceil(10000 / itemsPerPage)}</span
-  >
+  <span class="px-4 py-2">Page {currentPage} of {totalPages}</span>
+
   <a href="#header">
     <button
       on:click={nextPage}
       class="px-4 py-2 bg-gray-200 rounded-lg"
-      disabled={currentPage >= Math.ceil(10000 / itemsPerPage)}
+      disabled={currentPage >= totalPages}
     >
       Next
     </button>
   </a>
 </div>
-<!-- Match Button -->
-<button
-  class="mt-4 bg-indigo-500 text-white px-4 py-2 rounded-md shadow-md hover:bg-indigo-600"
-  on:click={generateMatch}
->
-  Generate Match
-</button>

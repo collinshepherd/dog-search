@@ -2,6 +2,8 @@
 
 export const ssr = false;
 
+import { totalDogs } from "$lib/store";
+
 export async function load({ fetch, request }) {
   const resDogBreeds = await fetch(
     "https://frontend-take-home-service.fetch.com/dogs/breeds",
@@ -15,7 +17,6 @@ export async function load({ fetch, request }) {
   );
 
   // If the response is not ok, return early with auth false
-  console.log(resDogBreeds.ok);
   if (!resDogBreeds.ok) {
     return {
       post: {
@@ -80,7 +81,7 @@ export async function load({ fetch, request }) {
     }
   });
 
-  console.log(resDogsData.next);
+  totalDogs.set(resDogsData.total);
 
   return {
     post: {

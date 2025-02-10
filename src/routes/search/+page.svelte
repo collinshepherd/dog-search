@@ -9,4 +9,5 @@
   dogs={data.post.dogs}
   auth={data.post.auth}
   nextDogQuery={data.post.nextDogQuery}
+  totalPages={data.post.totalPages}
 />
