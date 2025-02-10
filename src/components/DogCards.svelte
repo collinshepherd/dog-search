@@ -252,6 +252,7 @@
   }
   $: {
     if ($formData) {
+      console.log($formData);
       newSearchFilter($formData);
 
       currentPage = 1;

@@ -6,6 +6,7 @@
   import { favoriteDogs, formData } from "../lib/store";
 
   import Modal from "./Modal.svelte";
+  import { goto } from "$app/navigation";
 
   let showModal = false;
 
@@ -57,7 +58,6 @@
       }));
     }
   }
-  console.log($formData);
 
   function handleBreedChange(event, breed) {
     // Check if breed is checked or unchecked
@@ -114,7 +114,7 @@
 
     const matchedDog = await resMatch.json();
 
-    console.log(matchedDog);
+    goto(`/match?dogId=${matchedDog.match}`);
   }
 
   async function clearFavorites() {
@@ -126,24 +126,10 @@
     selectedBreeds = [];
 
     // Ensure the store updates with default values if it's undefined
-    formData.update((data) => {
-      // If data is undefined or null, return the default structure
-      // For some reason data is always blank on the first selection, maybe local host issue
-      if (!data || !Array.isArray(data.breeds)) {
-        return {
-          breeds: selectedBreeds,
-          sort: "breed:asc",
-          ageMin: "",
-          ageMax: "",
-          size: 24,
-        };
-      }
-
-      return {
-        ...data,
-        breeds: selectedBreeds,
-      };
-    });
+    formData.update((data) => ({
+      ...currentFormData,
+      breeds: selectedBreeds,
+    }));
   }
 </script>
 
@@ -161,18 +147,6 @@
   class="grid col-span-2 md:col-span-3 lg:row-span-7 lg:col-span-1 z-999"
 >
   <div>
-    <div class="mb-2">
-      <label for="name" class="block mb-2 text-sm font-medium text-grey-900"
-        >Name</label
-      >
-      <input
-        type="text"
-        name="name"
-        id="name"
-        placeholder="Banjo"
-        class="bg-gray-50 border border-gray-300 text-white text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-      />
-    </div>
     <div class="mb-2">
       <button
         on:click={(event) => {

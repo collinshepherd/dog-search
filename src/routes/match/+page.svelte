@@ -1,19 +1,17 @@
 <script>
-  /** @type {import('./$types').PageProps} */
-  let { data } = $props();
-  import SearchPage from "../../components/SearchPage.svelte";
+  import Header from "../../components/Header.svelte";
+  import MatchedDogPage from "../../components/MatchedDogPage.svelte";
 
-  console.log(data.auth);
+  export let data;
+
+  const matchedDog = data.matchedDog;
+  const auth = data.auth;
 </script>
 
-{#if data.post.auth}
-  <SearchPage
-    breeds={data.post.breeds}
-    dogs={data.post.dogs}
-    auth={data.post.auth}
-    nextDogQuery={data.post.nextDogQuery}
-    totalPages={data.post.totalPages}
-  />
+<Header signedIn={"true"} />
+
+{#if auth}
+  <MatchedDogPage {matchedDog} />
 {:else}
   <div
     class="flex flex-col gap-10 flex-1 items-center justify-center pb-10 md:pb-14"

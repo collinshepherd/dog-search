@@ -20,11 +20,10 @@
     class="max-w-[1400px] mx-auto w-full flex items-center justify-between p-4 py-6"
     id="header"
   >
-    <a href="/" aria-label="return to home page">
-      <h1 class="font-semibold text-xl">
-        Dog <span class="text-indigo-400">Search</span>
-      </h1>
-    </a>
+    <h1 class="font-semibold text-xl">
+      Dog <span class="text-indigo-400">Search</span>
+    </h1>
+
     {#if !signedIn}
       <!-- <button
         class="md:hidden grid place-items-center"
