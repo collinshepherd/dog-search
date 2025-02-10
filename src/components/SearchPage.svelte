@@ -26,7 +26,7 @@
     <div
       class="flex flex-col gap-5 flex-1 items-center justify-center pb-10 md:pb-14"
     >
-      <div class="text-3xl font-semibold my-4">Search</div>
+      <div class="text-4xl font-bold my-4 text-indigo-400">Search</div>
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 gap-y-8">
         <SearchForm {breeds} />
