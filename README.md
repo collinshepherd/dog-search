@@ -1,38 +1,54 @@
-# sv
+# dog-search
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This website allows users to search through sheltered dogs, filter by breed, and add dogs to a favorites list. Once the favorites list is complete, users can generate a match based on the selected dogs. The purpose of this project is to demonstrate my skills to the Fetch Software Team for a potential hire.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **Search and Filter by Breed**: Search for sheltered dogs and filter by breed.
+- **Pagination**: Results are paginated for easy browsing.
+- **Sorting**: Results are sorted alphabetically by breed by default, and users can modify the sorting to ascending or descending order.
+- **Favorite Dogs**: Users can select their favorite dogs from the search results.
+- **Generate Match**: After selecting favorite dogs, users can generate and view their best match.
 
-```bash
-# create a new project in the current directory
-npx sv create
+## Technologies Used
 
-# create a new project in my-app
-npx sv create my-app
-```
+- **Svelte**: For the frontend framework.
+- **Tailwind CSS**: For styling the website.
 
-## Developing
+## Setup and Installation
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+1. Clone the repository:
 
-```bash
-npm run dev
+   ```bash
+   git clone <repo-url>
+   ```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+2. Install the dependencies:
 
-## Building
+   ```bash
+   npm install
+   ```
 
-To create a production version of your app:
+3. Start the development server:
 
-```bash
-npm run build
-```
+   ```bash
+   npm run dev
+   ```
 
-You can preview the production build with `npm run preview`.
+4. Navigate to `http://localhost:5173/` to view the app.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+## Usage
+
+- Login using your email and name
+- Use the search buttons to filter by breeds and age to browse available dogs.
+- Sort the results alphabetically by breed, with the option to toggle ascending or descending order.
+- Click the "heart" button on dogs you'd like to favorite.
+- After selecting your favorite dogs, click "Generate Match" to find the best match based on your selected dogs.
+
+## Contributions
+
+This project was developed solely by Collin Shepherd as part of a take-home assignment.
+
+## License
+
+No license has been specified.
