@@ -3,6 +3,7 @@
 
   export let breeds;
 
+  // Importing from the store so it can be updated on the form
   import { favoriteDogs, formData } from "../lib/store";
 
   import Modal from "./Modal.svelte";
@@ -14,12 +15,8 @@
 
   let showMenu = false;
 
-  let breedsValue = "";
-  let name = "";
-  let sort = "";
-  let ageMin = "";
-  let ageMax = "";
-
+  // Adding a copy of the form data from the store
+  // For some reason in formData.update((data) =>) the data value is blank and cannot be used properly
   let currentFormData = {
     breeds: [],
     sort: "breed:asc",
@@ -28,6 +25,7 @@
     size: 24,
   };
 
+  // Search filter for breeds
   let searchQuery = "";
   let filteredBreeds = breeds;
 
@@ -61,6 +59,7 @@
     }
   }
 
+  // Function to update formData after the sort is changed
   function handleSortChange(event) {
     const sortValue = event.target.value;
 
@@ -70,6 +69,7 @@
     }));
   }
 
+  // Function to update formData after breeds are changed
   function handleBreedChange(event, breed) {
     // Check if breed is checked or unchecked
     if (event.target.checked) {
@@ -97,20 +97,21 @@
 
   function handleSubmit(event) {
     event.preventDefault();
-
-    formData.set(ageMin, ageMax);
   }
 
+  // Function to generate a match based on the API endpoint
   async function generateMatch() {
     const favoriteDogIds = await JSON.parse(
       localStorage.getItem("favoriteDogIds")
     );
 
+    // Making sure that if either the favoriteDogs are not initialized yet or if its an empty array then it does not run
     if (!favoriteDogIds || favoriteDogIds.length === 0) {
       alert("Please select one dog before trying to match");
       return;
     }
 
+    // Fetching the matched dog
     const resMatch = await fetch(
       "https://frontend-take-home-service.fetch.com/dogs/match",
       {
@@ -125,14 +126,17 @@
 
     const matchedDog = await resMatch.json();
 
+    // Sending to link where matchedDog can be displayed full screen
     goto(`/match?dogId=${matchedDog.match}`);
   }
 
+  // Function to clear favorites from localStorage
   async function clearFavorites() {
     localStorage.removeItem("favoriteDogIds");
     favoriteDogs.set(new Set());
   }
 
+  // Function to clear all selectedBreeds
   async function clearSelectedBreeds() {
     selectedBreeds = [];
 
@@ -181,6 +185,8 @@
       </button>
 
       <Modal bind:open={showModal} class="insideModal">
+        <!-- Modal so the user can search and also use a checkbox style input to choose breeds nicely -->
+        <!-- Also adding the insideModal class to all elements inside the modal so that it does not close if you click inside or on the elements -->
         <div class="p-4 insideModal">
           <!-- Search Input -->
           <input
@@ -222,6 +228,7 @@
             id="sort"
             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 insideModal"
           >
+            <option value="asc">Pick one</option>
             <option value="asc">Ascending</option>
             <option value="desc"> Descending </option>
           </select>
@@ -276,4 +283,3 @@
     </div>
   </div>
 </form>
-<!-- Match Button -->

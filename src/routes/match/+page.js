@@ -24,6 +24,7 @@ export async function load({ fetch, url, request }) {
 
     const matchedDog = await resMatchedDog.json();
 
+    // If the query gives us data without errors auth is true otherwise the error is caught and auth is passed and false
     return {
       auth: true,
       matchedDog,

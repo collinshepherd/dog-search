@@ -1,8 +1,10 @@
 <script>
   import { goto } from "$app/navigation";
 
+  // Value to pass through to change what buttons are displayed in the nav
   export let signedIn;
 
+  // function to logout the user on button press
   function buttonHandler() {
     fetch("https://frontend-take-home-service.fetch.com/auth/logout", {
       method: "POST",
@@ -11,6 +13,7 @@
       },
       credentials: "include",
     });
+    // send the user back to the home page
     goto("/");
   }
 </script>
@@ -24,13 +27,8 @@
       Dog <span class="text-indigo-400">Search</span>
     </h1>
 
+    <!-- Check if the user is not signedIn yet and if they are not then it shows a get started button, if its true then a logout button is showed instead -->
     {#if !signedIn}
-      <!-- <button
-        class="md:hidden grid place-items-center"
-        aria-label="menu button for mobile screens"
-      >
-        <i class="fa-solid fa-bars"></i>
-      </button> -->
       <nav class="hidden md:flex items-center gap-4 lg:gap-6">
         <a href="/login">
           <button aria-label="button to login" class="specialBtn rounded-xl"

@@ -15,6 +15,7 @@
   let currentPage = 1;
   let currentDogs = dogs;
 
+  // Importing formData from a store file so Dog Cards can update
   import { formData } from "../lib/store";
 
   // Store to keep track of favorite dogs
@@ -37,11 +38,13 @@
     localStorage.setItem("favoriteDogIds", JSON.stringify(currentIds));
   }
 
+  // Function to get all of the stored favorite dogs from localstorage
   async function loadSavedMatches() {
     const matchedIds = JSON.parse(localStorage.getItem("favoriteDogIds"));
     favoriteDogs.set(new Set(matchedIds));
   }
 
+  // Function to get the next dog query and move on in the pagination
   async function nextPage() {
     currentPage++;
 
@@ -93,10 +96,12 @@
 
     const cities = await resCity.json();
 
+    // Adding the city to the dogData array so that they can display the city instead of the zip code
     dogData.map((dog, idx) => {
       if (cities[idx]) {
         dog.city = cities[idx].city;
       } else {
+        // If the api did not get a valid city just make it the zip code again
         dog.city = dog.zip_code;
       }
     });
@@ -104,6 +109,7 @@
     currentDogs = dogData;
   }
 
+  // Function to call the prev Query if it is possible and available and move the pagination
   async function prevPage() {
     if (!prevDogQuery || currentPage === 1) return;
 
@@ -228,6 +234,7 @@
 
     const cities = await res4.json();
 
+    // Adding the city to the newDogs array so that they can display the city instead of the zip code
     newDogs.map((dog, idx) => {
       if (cities[idx]) {
         dog.city = cities[idx].city;
@@ -245,6 +252,7 @@
     nextDogQuery = dogData.next;
   }
   $: {
+    // When the formData changes it updates the searchFilter and calls a new Query to update
     if ($formData) {
       newSearchFilter($formData);
 
@@ -253,6 +261,7 @@
   }
 
   $: {
+    // If the localStorage changes in any way it loads the matches Ex.) when the local storage is cleared
     if ($favoriteDogs) {
       loadSavedMatches();
     }
@@ -261,6 +270,7 @@
   onMount(() => loadSavedMatches());
 </script>
 
+<!-- Loop through each dog and make a card to display -->
 {#each currentDogs as dog}
   <div
     class="relative w-full h-94 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700"
@@ -294,6 +304,7 @@
     </div>
   </div>
 {/each}
+<!-- Buttons for next and prev page -->
 <div class="flex justify-center col-span-2 md:col-span-3 lg:col-span-5 gap-4">
   <a href="#header">
     <button

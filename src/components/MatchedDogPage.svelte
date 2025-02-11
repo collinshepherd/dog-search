@@ -1,4 +1,5 @@
 <script>
+  // data passed through for the matchedDog
   export let matchedDog;
 
   import SectionWrapper from "./SectionWrapper.svelte";
