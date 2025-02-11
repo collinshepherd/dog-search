@@ -1,6 +1,6 @@
 # dog-search
 
-This website allows users to search through sheltered dogs, filter by breed, and add dogs to a favorites list. Once the favorites list is complete, users can generate a match based on the selected dogs. The purpose of this project is to demonstrate my skills to the Fetch Software Team for a potential hire.
+This website allows users to search through sheltered dogs, filter by breed, and add dogs to a favorites list. Once the favorites list is complete, users can generate a match based on the selected dogs. The purpose of this project is to demonstrate my skills to Fetch for a potential hire.
 
 ## Features
 
