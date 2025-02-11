@@ -96,6 +96,7 @@ export async function load({ fetch, request }) {
         nextDogQuery: resDogsData.next,
       },
     };
+    // If the query gives us data without errors auth is true otherwise the error is caught and auth is passed and false
   } catch (err) {
     console.error(err.message);
 

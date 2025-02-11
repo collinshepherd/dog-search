@@ -4,7 +4,9 @@
   import SearchPage from "../../components/SearchPage.svelte";
 </script>
 
+<!-- If the user is not logged in then it will redirect the user to login -->
 {#if data.post.auth}
+  <!-- Passing through all pre load data to the SearchPage -->
   <SearchPage
     breeds={data.post.breeds}
     dogs={data.post.dogs}

@@ -36,14 +36,17 @@
         }
       );
 
+      // Check to make sure the login is successful
       if (!res.ok) {
         throw new Error(`Response Status: ${res.status}`);
       }
 
+      // If login is successful send the user to the search page
       if (res.status === 200) {
         goto("/search");
       }
     } catch (err) {
+      // Add logic to display this message so the user knows if the login failed/why it failed
       console.error(err);
     }
   }
@@ -77,7 +80,9 @@
           class="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg p-2.5 w-full"
         />
       </div>
-      <button type="submit" class="w-full mb-4 outline">Sign In</button>
+      <button type="submit" class="w-full mb-4 outline rounded-xl"
+        >Sign In</button
+      >
     </form>
   </div>
 </div>

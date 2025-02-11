@@ -4,12 +4,14 @@
 
   export let data;
 
-  const matchedDog = data.matchedDog;
+  const matchedDog = data?.matchedDog;
   const auth = data.auth;
 </script>
 
+<!-- Passing through signedIn to the header to change the nav buttons -->
 <Header signedIn={"true"} />
 
+<!-- If the user is logged in it will show the matched dog otherwise it will tell the user to login -->
 {#if auth}
   <MatchedDogPage {matchedDog} />
 {:else}

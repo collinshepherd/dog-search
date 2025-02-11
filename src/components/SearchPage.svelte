@@ -13,13 +13,10 @@
   export let auth;
 
   export let nextDogQuery;
-
-  let items = breeds.map((breed) => ({
-    value: breed,
-    label: breed.charAt(0).toUpperCase() + breed.slice(1),
-  }));
 </script>
 
+<!-- Auth is passed from an earlier query where if the query is successful then auth is true -->
+<!-- If auth is true we render the search page but if it is false we direct the user to login so they can have a new cookie for the API -->
 {#if auth}
   <SectionWrapper id="search">
     <Header signedIn="true" />
