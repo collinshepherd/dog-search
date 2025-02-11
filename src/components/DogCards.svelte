@@ -175,9 +175,7 @@
     for (const key in formData) {
       if (formData[key]) {
         if (Array.isArray(formData[key])) {
-          console.log("it ran");
           formData[key].forEach((breed) => {
-            console.log(`${key}=${breed}`);
             params += `${key}=${breed}&`;
           });
         } else {
@@ -187,8 +185,6 @@
     }
 
     const searchURL = `${baseUrl}${params.toString()}`;
-
-    console.log(searchURL);
 
     const resDogs = await fetch(searchURL, {
       method: "GET",
@@ -250,7 +246,6 @@
   }
   $: {
     if ($formData) {
-      console.log("form data updated");
       newSearchFilter($formData);
 
       currentPage = 1;

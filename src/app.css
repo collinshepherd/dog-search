@@ -20,12 +20,6 @@ span {
   font-weight: inherit;
 }
 
-.bgGrid {
-  background-size: 40px 40px;
-  background-image: linear-gradient(to right, grey 1px, transparent 1px),
-    linear-gradient(to bottom, grey 1px, transparent 1px);
-}
-
 button,
 .button {
   /* border-radius: 8px; */

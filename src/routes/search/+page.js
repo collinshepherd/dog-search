@@ -6,7 +6,6 @@ import { totalDogs } from "$lib/store";
 
 export async function load({ fetch, request }) {
   try {
-    console.log("1");
     const resDogBreeds = await fetch(
       "https://frontend-take-home-service.fetch.com/dogs/breeds",
       {

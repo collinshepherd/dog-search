@@ -2,8 +2,6 @@
   /** @type {import('./$types').PageProps} */
   let { data } = $props();
   import SearchPage from "../../components/SearchPage.svelte";
-
-  console.log(data.auth);
 </script>
 
 {#if data.post.auth}
