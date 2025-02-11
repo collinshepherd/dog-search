@@ -3,23 +3,27 @@
   import SectionWrapper from "./SectionWrapper.svelte";
   import Header from "./Header.svelte";
 
+  let email = "";
+  let name = "";
+  let errorMessage = "";
+
+  function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
   async function signIn(e) {
     e.preventDefault();
+    errorMessage = "";
 
-    // Check if the form exists and is filled out properly
-    const form = e.target;
-    if (!form) {
-      console.error("Form not found/Incomplete");
+    // Validate email format
+    if (!validateEmail(email)) {
+      errorMessage = "Please enter a valid email address.";
       return;
     }
 
-    // Get the values from the form
-    const email = form.querySelector("#email")?.value;
-    const name = form.querySelector("#name")?.value;
-
-    // Check if name and email are filled
     if (!email || !name) {
-      console.error("Email or Name is missing");
+      errorMessage = "Email and Name are required.";
       return;
     }
 
@@ -36,17 +40,13 @@
         }
       );
 
-      // Check to make sure the login is successful
       if (!res.ok) {
-        throw new Error(`Response Status: ${res.status}`);
+        throw new Error(`Login failed. Status: ${res.status}`);
       }
 
-      // If login is successful send the user to the search page
-      if (res.status === 200) {
-        goto("/search");
-      }
+      goto("/search");
     } catch (err) {
-      // Add logic to display this message so the user knows if the login failed/why it failed
+      errorMessage = "Failed to sign in. Please try again.";
       console.error(err);
     }
   }
@@ -59,13 +59,19 @@
     class="flex flex-col outline-2 outline-solid rounded-xl px-4 bg-white text-black md:px-14"
   >
     <div class="text-3xl p-4">Sign in to your account</div>
-    <form on:submit={(e) => signIn(e)} class="space-y-4 md:space-y-6">
+
+    {#if errorMessage}
+      <div class="text-red-500 p-2 font-bold">{errorMessage}</div>
+    {/if}
+
+    <form on:submit={signIn} class="space-y-4 md:space-y-6">
       <div>
         <label for="email" class="block mb-2 font-medium">Your email</label>
         <input
           type="text"
           name="email"
           id="email"
+          bind:value={email}
           placeholder="example@example.com"
           class="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg p-2.5 w-full"
         />
@@ -76,13 +82,14 @@
           type="text"
           name="name"
           id="name"
+          bind:value={name}
           placeholder="Bob"
           class="bg-gray-100 border border-gray-300 text-gray-900 rounded-lg p-2.5 w-full"
         />
       </div>
-      <button type="submit" class="w-full mb-4 outline rounded-xl"
-        >Sign In</button
-      >
+      <button type="submit" class="w-full mb-4 outline rounded-xl">
+        Sign In
+      </button>
     </form>
   </div>
 </div>
