@@ -12,6 +12,8 @@
 
   let selectedBreeds = [];
 
+  let showMenu = false;
+
   let breedsValue = "";
   let name = "";
   let sort = "";
@@ -142,9 +144,20 @@
   }}
 />
 
+<!-- Hamburger Menu Button -->
+<button
+  aria-label="mobile search open button"
+  on:click={() => (showMenu = !showMenu)}
+  class="lg:hidden text-white bg-indigo-500 p-3 rounded-lg absolute top-1 mt-24 shadow-md z-50"
+>
+  <i class="fa-solid fa-bars text-2xl"></i>
+</button>
+
 <form
   on:submit={handleSubmit}
-  class="grid col-span-2 md:col-span-3 lg:row-span-7 lg:col-span-1 z-999"
+  class="grid col-span-2 md:col-span-3 lg:row-span-7 lg:col-span-1 z-999 {showMenu
+    ? ''
+    : 'hidden lg:grid'} "
 >
   <div>
     <div class="mb-2">
@@ -205,18 +218,6 @@
       </Modal>
     </div>
 
-    <!-- <div class="mb-2">
-      <label for="sort" class="block mb-2 text-sm font-medium text-grey-900"
-        >Sort Order</label
-      >
-      <select
-        id="sort"
-        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5"
-      >
-        <option value="asc"> Ascending </option>
-        <option value="desc"> Descending </option>
-      </select>
-    </div> -->
     <div class="mb-2">
       <label for="age" class="block mb-2 text-sm font-medium text-grey-900"
         >Age</label

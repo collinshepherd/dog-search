@@ -13,7 +13,6 @@
   let prevDogQuery = null;
 
   let currentPage = 1;
-  let itemsPerPage = 15;
   let currentDogs = dogs;
 
   import { formData } from "../lib/store";
@@ -189,8 +188,7 @@
 
     const searchURL = `${baseUrl}${params.toString()}`;
 
-    console.log(formData);
-    // console.log(searchURL);
+    console.log(searchURL);
 
     const resDogs = await fetch(searchURL, {
       method: "GET",
@@ -252,11 +250,14 @@
   }
   $: {
     if ($formData) {
-      console.log($formData);
+      console.log("form data updated");
       newSearchFilter($formData);
 
       currentPage = 1;
     }
+  }
+
+  $: {
     if ($favoriteDogs) {
       loadSavedMatches();
     }
