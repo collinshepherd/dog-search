@@ -4,8 +4,6 @@
   import SectionWrapper from "./SectionWrapper.svelte";
 
   const matchedDogData = matchedDog[0];
-
-  console.log(matchedDogData);
 </script>
 
 <SectionWrapper id="match">
@@ -36,7 +34,7 @@
           {matchedDogData.breed}
         </p>
         <p class="text-md font-semibold text-white col-span-2">
-          {matchedDogData.zip_code}
+          Zip Code: {matchedDogData.zip_code}
         </p>
       </div>
     </div>

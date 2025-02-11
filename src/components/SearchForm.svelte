@@ -61,6 +61,15 @@
     }
   }
 
+  function handleSortChange(event) {
+    const sortValue = event.target.value;
+
+    formData.update(() => ({
+      ...currentFormData,
+      sort: `breed:${sortValue}`,
+    }));
+  }
+
   function handleBreedChange(event, breed) {
     // Check if breed is checked or unchecked
     if (event.target.checked) {
@@ -172,7 +181,7 @@
       </button>
 
       <Modal bind:open={showModal} class="insideModal">
-        <div class="p-4">
+        <div class="p-4 insideModal">
           <!-- Search Input -->
           <input
             type="text"
@@ -202,7 +211,22 @@
             {/each}
           </ul>
         </div>
-        <div class="flex justify-between">
+        <div class="insideModal">
+          <label
+            for="sort"
+            class="block mb-2 text-sm font-medium text-grey-900 insideModal"
+            >Sort Order</label
+          >
+          <select
+            on:change={handleSortChange}
+            id="sort"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg w-full p-2.5 insideModal"
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc"> Descending </option>
+          </select>
+        </div>
+        <div class="flex justify-between insideModal">
           <button
             on:click={() => clearSelectedBreeds()}
             class="mt-4 bg-red-500 text-white px-4 py-2 rounded insideModal"
